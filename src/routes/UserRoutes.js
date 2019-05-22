@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const userController = require("../controllers/UserController");
+const userController = require("../controllers/UserControllerAsyncAwait");
 
 router.get("/", userController.findAll);
 router.post("/", userController.create);

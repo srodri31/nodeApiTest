@@ -2,6 +2,9 @@ const Joi = require("@hapi/joi");
 const { createSchema, updateSchema } = require("../utils/validationSchemas");
 const User = require('../models/User');
 
+//Alternate versions of this functions
+//using async await can be found in ./controllers/UserCOntrollerAsyncAwait
+
 // Select *
 let findAll = (req, res) => {
     User.findAll().then(users => {
@@ -12,28 +15,17 @@ let findAll = (req, res) => {
     });
 }
 
-//  Select * alternate version with async await
-// async function findAll(req, res) {
-//     try {
-//         let users = await User.findAll();
-//         res.status(200).send(users);
-//     } catch (e) {
-//         res.status(500).send(`Unable to retrieve records: ${e.message}`);
-//     }
-// }
-
-async function findByID(req, res) {
-    try {
-        let result = await User.findByPk(req.params.id);
-        if(result) {
-            res.status(200).send(result);
-        } else {
-            res.status(404).send("User not found");
-        }
-        
-    } catch(e) {
-        res.status(500).send(`Unable to retrieve user: ${e.message}`);
-    }
+let findByID = (req, res) => {
+    User.findByPk(req.params.id)
+        .then((user) => {
+            if(user) {
+                res.status(200).send(user);
+            } else {
+                res.status(404).send(`User with ID ${req.params.id} not found`);
+            }
+        }).catch((err) => {
+            res.status(500).send(`Unable to retrieve user: ${err.message}`);
+        })
 }
 
 // Insert
