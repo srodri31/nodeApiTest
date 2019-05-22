@@ -24,11 +24,7 @@ let findAll = (req, res) => {
 
 async function findByID(req, res) {
     try {
-        let result = await User.findOne({
-            where: {
-                id: req.params.id
-            }
-        });
+        let result = await User.findByPk(req.params.id);
         if(result) {
             res.status(200).send(result);
         } else {
