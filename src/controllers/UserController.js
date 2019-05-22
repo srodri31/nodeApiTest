@@ -72,7 +72,7 @@ let update = (req, res) => {
                     id: req.params.id 
                 }
             }).then((updated) => {
-                if(updated) {
+                if(updated > 0) {
                     res.status(200).send(`Done updating user`);
                 } else {
                     res.status(404).send(`Unable to update user: User not found`);
